@@ -21,4 +21,23 @@ function onPageLoad() {
 function checkStudentID(){
     var id = document.getElementById('roll').value;
     console.log(id);
+    
+    if(checkIdInDatabase(id)){
+        loadDataFromDatabase(id);
+        document.getElementById('name').disabled = true;
+        document.getElementById('class').disabled = true;
+        document.getElementById('birthDate').disabled = true;
+        document.getElementById('address').disabled = true;
+        document.getElementById('enrollmentDate').disabled = true;
+        document.getElementById('saveBtn').disabled = true;
+        document.getElementById('changeBtn').disabled = true;
+        document.getElementById('resetBtn').disabled = true;
+    }
+    
+}
+
+function checkIdInDatabase(id){
+    // make request, get record.
+    // return true if record exists, else false.
+    return true;
 }
