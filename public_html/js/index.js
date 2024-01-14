@@ -1,6 +1,6 @@
 var token = "90931827|-31949300889492706|90963448";
-var dbName = "Employee";
-var relName = "Emp-Rel";
+var dbName = "Student";
+var relName = "Stud-Rel";
 var dbBaseUrl = "http://api.login2explore.com:5577";
 
 var imlEndpoint = "/api/iml";
@@ -15,7 +15,7 @@ function onPageLoad(){
     document.getElementById('address').disabled = true;
     document.getElementById('enrollmentDate').disabled = true;
     document.getElementById('saveBtn').disabled = true;
-    document.getElementById('changeBtn').disabled = true;
+    document.getElementById('updateBtn').disabled = true;
     document.getElementById('resetBtn').disabled = true;
     // Enable Employee ID field
     document.getElementById('roll').disabled = false;
@@ -35,16 +35,18 @@ function checkStudentID(){
         document.getElementById('birthDate').value = jsonObject.birthDate;
         document.getElementById('address').value = jsonObject.address;
         document.getElementById('enrollmentDate').value = jsonObject.enrollmentDate;
-        
+
         document.getElementById('roll').disabled = true;
-        document.getElementById('name').disabled = true;
-        document.getElementById('class').disabled = true;
-        document.getElementById('birthDate').disabled = true;
-        document.getElementById('address').disabled = true;
-        document.getElementById('enrollmentDate').disabled = true;
+        document.getElementById('name').disabled = false;
+        document.getElementById('class').disabled = false;
+        document.getElementById('birthDate').disabled = false;
+        document.getElementById('address').disabled = false;
+        document.getElementById('enrollmentDate').disabled = false;
         document.getElementById('saveBtn').disabled = true;
-        document.getElementById('changeBtn').disabled = false;
-        document.getElementById('resetBtn').disabled = true;
+        document.getElementById('updateBtn').disabled = false;
+        document.getElementById('resetBtn').disabled = false;
+        
+        document.getElementById('name').focus();
     }
     else{
         document.getElementById('name').disabled = false;
@@ -53,8 +55,9 @@ function checkStudentID(){
         document.getElementById('address').disabled = false;
         document.getElementById('enrollmentDate').disabled = false;
         document.getElementById('saveBtn').disabled = false;
-        document.getElementById('changeBtn').disabled = true;
+        document.getElementById('updateBtn').disabled = true;
         document.getElementById('resetBtn').disabled = false;
+        document.getElementById('name').focus();
     }
     
 }
@@ -62,6 +65,7 @@ function checkStudentID(){
 function checkStudentIdInDatabase(id){
     // make request, get record.
     // return true if record exists, else false.
+    console.log("checkStudentIdInDatabase() --> id : " + id);
     if (id % 2 == 0)
         return true;
     return false;
@@ -69,12 +73,15 @@ function checkStudentIdInDatabase(id){
 
 function loadDataFromDatabase(id){
     
-    // Todo : Database call, returns jsonString
-    var jsonString = '{"roll": ' + id + ',"name": "Satu","class": 12, "birthDate": "2000-12-18", "address": "Ahmednagar, Maharashtra", "enrollmentDate": "2015-07-07"}';
-    return JSON.parse(jsonString);
+    /* Done:-
+    var reqString = createGET_BY_KEYRequest(token, dbname, relationName, jsonObjStr, true, true);
+    var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
+    */
+    var jsonResponseObject = '{"roll": ' + id + ',"name": "Satu","class": 12, "birthDate": "2000-12-18", "address": "Ahmednagar, Maharashtra", "enrollmentDate": "2015-07-07"}';
+    return JSON.parse(jsonResponseObject);
 }
 
-function resetForm() {
+function resetForm(){
     // Reset all fields and disable all buttons
     document.getElementById('roll').value = '';
     document.getElementById('name').value = '';
@@ -88,26 +95,19 @@ function resetForm() {
     document.getElementById('address').disabled = true;
     document.getElementById('enrollmentDate').disabled = true;
     document.getElementById('saveBtn').disabled = true;
-    document.getElementById('changeBtn').disabled = true;
+    document.getElementById('updateBtn').disabled = true;
     document.getElementById('resetBtn').disabled = true;
     // Enable Employee ID field
     document.getElementById('roll').disabled = false;
     document.getElementById('roll').focus();
 }
 
-function saveData() {
+function saveData(){
 
-    var jsonObjStr = {
-        roll: $("#roll").val(),
-        name: $("#name").val(),
-        class: $("#class").val(),
-        birthDate:$("#birthDate").val(),
-        address:$("#address").val(),
-        enrollmentDate:$("#enrollmentDate").val()
-    };
-    
-    console.log(jsonObjStr);
-    /*
+    var jsonObj = getFormData();
+
+    console.log("Saved: " + jsonObj);
+    /* Done:-
     var reqString = createPUTRequest(connToken, jsonObjStr, dbName, relName);
     
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
@@ -116,4 +116,25 @@ function saveData() {
     
     resetForm();
      */
+}
+
+function getFormData(){
+    
+    var jsonObj = {
+        roll: $("#roll").val(),
+        name: $("#name").val(),
+        class: $("#class").val(),
+        birthDate:$("#birthDate").val(),
+        address:$("#address").val(),
+        enrollmentDate:$("#enrollmentDate").val()
+    };
+    console.log("returning from form :" + jsonObj);
+    return jsonObj;
+    
+}
+
+function updateData(){
+    var jsonObj = getFormData();
+    console.log("Updated: " + jsonObj);
+    // resetForm();
 }
