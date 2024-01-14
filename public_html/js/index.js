@@ -1,6 +1,6 @@
 var token = "90931827|-31949300889492706|90963448";
-var dbName = "Student";
-var relName = "Stud-Rel";
+var dbName = "SCHOOL-DB";
+var relName = "STUDENT-TABLE";
 var dbBaseUrl = "http://api.login2explore.com:5577";
 
 var imlEndpoint = "/api/iml";
@@ -65,8 +65,17 @@ function checkStudentID(){
 function checkStudentIdInDatabase(id){
     // make request, get record.
     // return true if record exists, else false.
+    
+    /* Done:-
+    var jsonObject = loadDataFromDatabase(id);
+    if(jsonObject != null)
+        return true;
+    else
+        return false;
+    */
+    
     console.log("checkStudentIdInDatabase() --> id : " + id);
-    if (id % 2 == 0)
+    if (id % 2 != 0)
         return true;
     return false;
 }
@@ -75,9 +84,9 @@ function loadDataFromDatabase(id){
     
     /* Done:-
     var reqString = createGET_BY_KEYRequest(token, dbname, relationName, jsonObjStr, true, true);
-    var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
+    var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, irlEndpoint);
     */
-    var jsonResponseObject = '{"roll": ' + id + ',"name": "Satu","class": 12, "birthDate": "2000-12-18", "address": "Ahmednagar, Maharashtra", "enrollmentDate": "2015-07-07"}';
+    var jsonResponseObject = '{"roll": ' + id + ',"name": "Satyavan Ransing","class": 12, "birthDate": "2000-12-18", "address": "Ahmednagar, Maharashtra", "enrollmentDate": "2015-07-07"}';
     return JSON.parse(jsonResponseObject);
 }
 
@@ -113,9 +122,8 @@ function saveData(){
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
     
     console.log(jsonResponseObject);
-    
-    resetForm();
      */
+    resetForm();
 }
 
 function getFormData(){
@@ -139,9 +147,9 @@ function updateData(){
     
     /* Done:-
     var reqString = createUPDATERecordRequest(token, jsonObj, dbName, relName, jsonObj.roll);
-    
+
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
     */
     
-    // resetForm();
+    resetForm();
 }

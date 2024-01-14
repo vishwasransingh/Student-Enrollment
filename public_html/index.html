@@ -10,14 +10,17 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
   <script src="js/index.js"></script>
+    <style>
+        .form-control{
+/*            max-width: 500px;*/
+        }
+    </style>
 </head>
 <body onload="onPageLoad()">
-    <!-- Add Bootstrap container class -->
     <h2 style="text-align:center">Student Enrollment Form</h2>
     <hr>
     <div class="container mt-5">
         <form>
-            <!-- Add Bootstrap form-group class to each label-input pair -->
             <div class="form-group">
                 <label for="roll">Roll No:</label>
                 <input type="number" class="form-control" id="roll" onchange="checkStudentID()" required min="1">
