@@ -1,7 +1,11 @@
 var token = "90931827|-31949300889492706|90963448";
-var dbname = "Employee";
-var relationName = "Emp-Rel";
+var dbName = "Employee";
+var relName = "Emp-Rel";
 var dbBaseUrl = "http://api.login2explore.com:5577";
+
+var imlEndpoint = "/api/iml";
+var irlEndpoint = "/api/irl";
+var islEndpoint = "/api/isl";
 
 function onPageLoad(){
     // Disable all fields and buttons
@@ -22,9 +26,9 @@ function checkStudentID(){
     var id = document.getElementById('roll').value;
     console.log(id);
     
-    if(checkIdInDatabase(id)){
+    if(checkStudentIdInDatabase(id)){
         var jsonObject = loadDataFromDatabase(id);
-        
+
         document.getElementById('roll').value = jsonObject.roll;
         document.getElementById('name').value = jsonObject.name;
         document.getElementById('class').value = jsonObject.class;
@@ -55,7 +59,7 @@ function checkStudentID(){
     
 }
 
-function checkIdInDatabase(id){
+function checkStudentIdInDatabase(id){
     // make request, get record.
     // return true if record exists, else false.
     if (id % 2 == 0)
@@ -89,4 +93,27 @@ function resetForm() {
     // Enable Employee ID field
     document.getElementById('roll').disabled = false;
     document.getElementById('roll').focus();
+}
+
+function saveData() {
+
+    var jsonObjStr = {
+        roll: $("#roll").val(),
+        name: $("#name").val(),
+        class: $("#class").val(),
+        birthDate:$("#birthDate").val(),
+        address:$("#address").val(),
+        enrollmentDate:$("#enrollmentDate").val()
+    };
+    
+    console.log(jsonObjStr);
+    /*
+    var reqString = createPUTRequest(connToken, jsonObjStr, dbName, relName);
+    
+    var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
+    
+    console.log(jsonResponseObject);
+    
+    resetForm();
+     */
 }
