@@ -135,6 +135,13 @@ function getFormData(){
 
 function updateData(){
     var jsonObj = getFormData();
-    console.log("Updated: " + jsonObj);
+    console.log("Updated roll no: " + jsonObj.roll);
+    
+    /* Done:-
+    var reqString = createUPDATERecordRequest(token, jsonObj, dbName, relName, jsonObj.roll);
+    
+    var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
+    */
+    
     // resetForm();
 }
