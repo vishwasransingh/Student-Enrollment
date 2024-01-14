@@ -63,30 +63,24 @@ function checkStudentID(){
 }
 
 function checkStudentIdInDatabase(id){
-    // make request, get record.
-    // return true if record exists, else false.
-    
-    /* Done:-
+
     var jsonObject = loadDataFromDatabase(id);
     if(jsonObject != null)
         return true;
     else
         return false;
-    */
     
-    console.log("checkStudentIdInDatabase() --> id : " + id);
-    if (id % 2 != 0)
-        return true;
-    return false;
+    console.out("checkStudentIdInDatabase():" + jsonObject);
+    
 }
 
 function loadDataFromDatabase(id){
     
-    /* Done:-
+
     var reqString = createGET_BY_KEYRequest(token, dbname, relationName, jsonObjStr, true, true);
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, irlEndpoint);
-    */
-    var jsonResponseObject = '{"roll": ' + id + ',"name": "Satyavan Ransing","class": 12, "birthDate": "2000-12-18", "address": "Ahmednagar, Maharashtra", "enrollmentDate": "2015-07-07"}';
+
+    //var jsonResponseObject = '{"roll": ' + id + ',"name": "Satyavan Ransing","class": 12, "birthDate": "2000-12-18", "address": "Ahmednagar, Maharashtra", "enrollmentDate": "2015-07-07"}';
     return JSON.parse(jsonResponseObject);
 }
 
@@ -116,13 +110,13 @@ function saveData(){
     var jsonObj = getFormData();
 
     console.log("Saved: " + jsonObj);
-    /* Done:-
+   
     var reqString = createPUTRequest(connToken, jsonObjStr, dbName, relName);
     
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
     
     console.log(jsonResponseObject);
-     */
+
     resetForm();
 }
 
@@ -145,11 +139,10 @@ function updateData(){
     var jsonObj = getFormData();
     console.log("Updated roll no: " + jsonObj.roll);
     
-    /* Done:-
     var reqString = createUPDATERecordRequest(token, jsonObj, dbName, relName, jsonObj.roll);
-
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
-    */
+    
+    console.log(jsonResponseObject);
     
     resetForm();
 }
