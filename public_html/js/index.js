@@ -67,8 +67,6 @@ function checkStudentIdInDatabase(id) {
     else
         return false;
 
-    console.out("checkStudentIdInDatabase():" + jsonObject);
-
 }
 
 function loadDataFromDatabase(roll) {
@@ -89,7 +87,6 @@ function loadDataFromDatabase(roll) {
     } catch (Exception) {
         return null;
     }
-    //console.log(jsonData.record);
     return jsonData.record;
 }
 
@@ -115,16 +112,11 @@ function resetForm() {
 }
 
 function saveData() {
-
-    // Todo : Write validations for form data.
-
     var jsonObj = getAndValidateFormData();
     
     if(!jsonObj){
         return;
     }
-
-    console.log("Saved: " + jsonObj);
     
     var jsonObjStr = JSON.stringify(jsonObj);
 
@@ -133,8 +125,6 @@ function saveData() {
     jQuery.ajaxSetup({ async: false });
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
     jQuery.ajaxSetup({ async: true });
-        
-    console.log(JSON.stringify(jsonResponseObject));
 
     resetForm();
 }
@@ -200,16 +190,11 @@ function getAndValidateFormData() {
 function updateData() {
     var jsonObj = getAndValidateFormData();
     var jsonObjStr = JSON.stringify(jsonObj);
-    console.log(jsonObj);
     var roll = jsonObj.roll;
-    console.log("Roll no: " + roll);
     var reqString = createUPDATERecordRequest(token, jsonObjStr, dbName, relName, jsonObj.roll);
     
     jQuery.ajaxSetup({ async: false });
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
     jQuery.ajaxSetup({ async: true });
-    
-    console.log("Updated :" + JSON.stringify(jsonResponseObject));
-
     resetForm();
 }
