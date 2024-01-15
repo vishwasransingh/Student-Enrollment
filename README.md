@@ -48,7 +48,7 @@ git clone https://github.com/vishwasransingh/Student-Enrollment.git
 
 1. Navigate to the index file location : 
 
-  `\Your-Path\Student Enrollment\public_html`
+    `\Your-Path\Student Enrollment\public_html`
 
 2. Launch the index.html file in your browser.
 
