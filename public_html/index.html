@@ -10,11 +10,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
   <script src="js/index.js"></script>
-    <style>
-        .form-control{
-/*            max-width: 500px;*/
-        }
-    </style>
 </head>
 <body onload="onPageLoad()">
     <h2 style="text-align:center">Student Enrollment Form</h2>
@@ -51,14 +46,12 @@
                 <input type="date" class="form-control" id="enrollmentDate" required>
             </div>
 
-            <!-- Add Bootstrap btn class to buttons -->
             <button type="button" class="btn btn-primary" id="saveBtn" onclick="saveData()">Save</button>
             <button type="button" class="btn btn-success" id="updateBtn" onclick="updateData()">Update</button>
             <button type="button" class="btn btn-danger" id="resetBtn" onclick="resetForm()">Reset</button>
         </form>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    
 </body>
+
 </html>

@@ -1,4 +1,4 @@
-var token = "90931827|-31949300889492706|90963448";
+var token = "90931827|-31949307100192889|90960648";
 var dbName = "SCHOOL-DB";
 var relName = "STUDENT-TABLE";
 var dbBaseUrl = "http://api.login2explore.com:5577";
@@ -23,18 +23,17 @@ function onPageLoad(){
 }
 
 function checkStudentID(){
-    var id = document.getElementById('roll').value;
-    console.log(id);
+    var roll = document.getElementById('roll').value;
+    console.log(roll);
     
-    if(checkStudentIdInDatabase(id)){
-        var jsonObject = loadDataFromDatabase(id);
-
-        document.getElementById('roll').value = jsonObject.roll;
-        document.getElementById('name').value = jsonObject.name;
-        document.getElementById('class').value = jsonObject.class;
-        document.getElementById('birthDate').value = jsonObject.birthDate;
-        document.getElementById('address').value = jsonObject.address;
-        document.getElementById('enrollmentDate').value = jsonObject.enrollmentDate;
+    if(checkStudentIdInDatabase(roll)){
+        var record = loadDataFromDatabase(roll);
+        document.getElementById('roll').value = record.roll;
+        document.getElementById('name').value = record.name;
+        document.getElementById('class').value = record.class;
+        document.getElementById('birthDate').value = record.birthDate;
+        document.getElementById('address').value = record.address;
+        document.getElementById('enrollmentDate').value = record.enrollmentDate;
 
         document.getElementById('roll').disabled = true;
         document.getElementById('name').disabled = false;
@@ -64,8 +63,8 @@ function checkStudentID(){
 
 function checkStudentIdInDatabase(id){
 
-    var jsonObject = loadDataFromDatabase(id);
-    if(jsonObject != null)
+    var jsonRecord = loadDataFromDatabase(id);
+    if(jsonRecord !== null)
         return true;
     else
         return false;
@@ -74,14 +73,26 @@ function checkStudentIdInDatabase(id){
     
 }
 
-function loadDataFromDatabase(id){
+function loadDataFromDatabase(roll){
     
+    var jsonObj = {
+        roll: roll
+    };
+    var jsonObjStr = JSON.stringify(jsonObj);
 
-    var reqString = createGET_BY_KEYRequest(token, dbname, relationName, jsonObjStr, true, true);
+    var reqString = createGET_BY_KEYRequest(token, dbName, relName, jsonObjStr, true, true);
+    
+    jQuery.ajaxSetup({ async: false });
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, irlEndpoint);
-
-    //var jsonResponseObject = '{"roll": ' + id + ',"name": "Satyavan Ransing","class": 12, "birthDate": "2000-12-18", "address": "Ahmednagar, Maharashtra", "enrollmentDate": "2015-07-07"}';
-    return JSON.parse(jsonResponseObject);
+    jQuery.ajaxSetup({ async: true });
+    
+    try{
+        var jsonData = JSON.parse(jsonResponseObject.data);
+    }catch(Exception){
+        return null;
+    }
+    //console.log(jsonData.record);
+    return jsonData.record;
 }
 
 function resetForm(){
@@ -106,7 +117,9 @@ function resetForm(){
 }
 
 function saveData(){
-
+    
+    // Todo : Write validations for form data.
+    
     var jsonObj = getFormData();
 
     console.log("Saved: " + jsonObj);
@@ -146,3 +159,34 @@ function updateData(){
     
     resetForm();
 }
+
+
+
+
+
+
+
+
+function saveStudent() {
+    
+        var jsonStrObj = {
+        mobileno: $("#mobileno").val()
+    };
+        var jsonStr = JSON.stringify(jsonStrObj);
+
+        if (!jsonStr) {
+          return;
+        }
+
+        var putReqStr = createPUTRequest(token, jsonStr, "Student", "Student-Rel");
+        alert(putReqStr);
+
+        jQuery.ajaxSetup({ async: false });
+        var resultObj = executeCommandAtGivenBaseUrl(putReqStr, "http://api.login2explore.com:5577", "/api/iml");
+ 
+        jQuery.ajaxSetup({ async: true });
+        
+        alert(JSON.stringify(resultObj));
+
+        //resetForm();
+  }
