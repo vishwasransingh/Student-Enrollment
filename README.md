@@ -56,12 +56,12 @@ git clone https://github.com/vishwasransingh/Student-Enrollment.git
 
 4. Enter data in the Roll-No field.
    - If the Roll No. does not exist in the database, [Save] and [Reset] buttons will be enabled. Move the cursor to the next field to enter data.
-   - Ensure all fields are filled with valid data.
-   - Click [Save] to store the data in the database and repeat the process.
+     - Ensure all fields are filled with valid data.
+     - Click [Save] to store the data in the database and repeat the process.
    
    - If the Roll No. exists in the database, the form will display existing data. [Update] and [Reset] buttons will be enabled. Modify other fields as needed.
-   - Ensure all fields are filled with valid data.
-   - Click [Update] to update the data in the database or click [Reset] to start a new entry.
+     - Ensure all fields are filled with valid data.
+     - Click [Update] to update the data in the database or click [Reset] to start a new entry.
 
 
 
