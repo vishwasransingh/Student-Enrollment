@@ -7,7 +7,7 @@ var imlEndpoint = "/api/iml";
 var irlEndpoint = "/api/irl";
 var islEndpoint = "/api/isl";
 
-function onPageLoad(){
+function onPageLoad() {
     // Disable all fields and buttons
     document.getElementById('name').disabled = true;
     document.getElementById('class').disabled = true;
@@ -22,11 +22,10 @@ function onPageLoad(){
     document.getElementById('roll').focus();
 }
 
-function checkStudentID(){
+function checkStudentID() {
     var roll = document.getElementById('roll').value;
-    console.log(roll);
-    
-    if(checkStudentIdInDatabase(roll)){
+
+    if (checkStudentIdInDatabase(roll)) {
         var record = loadDataFromDatabase(roll);
         document.getElementById('roll').value = record.roll;
         document.getElementById('name').value = record.name;
@@ -44,10 +43,9 @@ function checkStudentID(){
         document.getElementById('saveBtn').disabled = true;
         document.getElementById('updateBtn').disabled = false;
         document.getElementById('resetBtn').disabled = false;
-        
+
         document.getElementById('name').focus();
-    }
-    else{
+    } else {
         document.getElementById('name').disabled = false;
         document.getElementById('class').disabled = false;
         document.getElementById('birthDate').disabled = false;
@@ -58,44 +56,44 @@ function checkStudentID(){
         document.getElementById('resetBtn').disabled = false;
         document.getElementById('name').focus();
     }
-    
+
 }
 
-function checkStudentIdInDatabase(id){
+function checkStudentIdInDatabase(id) {
 
     var jsonRecord = loadDataFromDatabase(id);
-    if(jsonRecord !== null)
+    if (jsonRecord !== null)
         return true;
     else
         return false;
-    
+
     console.out("checkStudentIdInDatabase():" + jsonObject);
-    
+
 }
 
-function loadDataFromDatabase(roll){
-    
+function loadDataFromDatabase(roll) {
+
     var jsonObj = {
         roll: roll
     };
     var jsonObjStr = JSON.stringify(jsonObj);
 
     var reqString = createGET_BY_KEYRequest(token, dbName, relName, jsonObjStr, true, true);
-    
-    jQuery.ajaxSetup({ async: false });
+
+    jQuery.ajaxSetup({async: false});
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, irlEndpoint);
-    jQuery.ajaxSetup({ async: true });
-    
-    try{
+    jQuery.ajaxSetup({async: true});
+
+    try {
         var jsonData = JSON.parse(jsonResponseObject.data);
-    }catch(Exception){
+    } catch (Exception) {
         return null;
     }
     //console.log(jsonData.record);
     return jsonData.record;
 }
 
-function resetForm(){
+function resetForm() {
     // Reset all fields and disable all buttons
     document.getElementById('roll').value = '';
     document.getElementById('name').value = '';
@@ -116,77 +114,102 @@ function resetForm(){
     document.getElementById('roll').focus();
 }
 
-function saveData(){
-    
+function saveData() {
+
     // Todo : Write validations for form data.
+
+    var jsonObj = getAndValidateFormData();
     
-    var jsonObj = getFormData();
+    if(!jsonObj){
+        return;
+    }
 
     console.log("Saved: " + jsonObj);
-   
-    var reqString = createPUTRequest(connToken, jsonObjStr, dbName, relName);
     
+    var jsonObjStr = JSON.stringify(jsonObj);
+
+    var reqString = createPUTRequest(token, jsonObjStr, dbName, relName);
+
+    jQuery.ajaxSetup({ async: false });
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
-    
-    console.log(jsonResponseObject);
+    jQuery.ajaxSetup({ async: true });
+        
+    console.log(JSON.stringify(jsonResponseObject));
 
     resetForm();
 }
 
-function getFormData(){
+function getAndValidateFormData() {
+
+    var rollVar = $("#roll").val();
+    var nameVar = $("#name").val();
+    var classVar = $("#class").val();
+    var birthDateVar = $("#birthDate").val();
+    var addressVar = $("#address").val();
+    var enrollmentDateVar = $("#enrollmentDate").val();
+
+    if (rollVar === "") {
+        alert("Roll number can't be blank.");
+        $("#roll").focus();
+        return "";
+    }
     
+    if (nameVar === "") {
+        alert("Name can't be blank.");
+        $("#name").focus();
+        return "";
+    }
+    
+    if (classVar === "") {
+        alert("Class can't be blank.");
+        $("#class").focus();
+        return "";
+    }
+    
+    if (birthDateVar === "") {
+        alert("BirthDate can't be blank.");
+        $("#birthDate").focus();
+        return "";
+    }
+    
+    if (addressVar === "") {
+        alert("Address can't be blank.");
+        $("#address").focus();
+        return "";
+    }
+    
+    if (enrollmentDateVar === "") {
+        alert("Enrollment-Date can't be blank.");
+        $("#enrollmentDate").focus();
+        return "";
+    }
+    
+
     var jsonObj = {
         roll: $("#roll").val(),
         name: $("#name").val(),
         class: $("#class").val(),
-        birthDate:$("#birthDate").val(),
-        address:$("#address").val(),
-        enrollmentDate:$("#enrollmentDate").val()
+        birthDate: $("#birthDate").val(),
+        address: $("#address").val(),
+        enrollmentDate: $("#enrollmentDate").val()
     };
-    console.log("returning from form :" + jsonObj);
     return jsonObj;
-    
+
 }
 
-function updateData(){
-    var jsonObj = getFormData();
-    console.log("Updated roll no: " + jsonObj.roll);
+function updateData() {
+    var jsonObj = getAndValidateFormData();
+    var jsonObjStr = JSON.stringify(jsonObj);
+    console.log(jsonObj);
+    var roll = jsonObj.roll;
+    console.log("Roll no: " + roll);
+    var reqString = createUPDATERecordRequest(token, jsonObjStr, dbName, relName, jsonObj.roll);
     
-    var reqString = createUPDATERecordRequest(token, jsonObj, dbName, relName, jsonObj.roll);
+    jQuery.ajaxSetup({ async: false });
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
+    jQuery.ajaxSetup({ async: true });
     
-    console.log(jsonResponseObject);
-    
+    console.log("Updated :" + JSON.stringify(jsonResponseObject));
+
     resetForm();
 }
-
-
-
-
-
-
-
-
-function saveStudent() {
-    
-        var jsonStrObj = {
-        mobileno: $("#mobileno").val()
-    };
-        var jsonStr = JSON.stringify(jsonStrObj);
-
-        if (!jsonStr) {
-          return;
-        }
-
-        var putReqStr = createPUTRequest(token, jsonStr, "Student", "Student-Rel");
-        alert(putReqStr);
-
-        jQuery.ajaxSetup({ async: false });
-        var resultObj = executeCommandAtGivenBaseUrl(putReqStr, "http://api.login2explore.com:5577", "/api/iml");
- 
-        jQuery.ajaxSetup({ async: true });
-        
-        alert(JSON.stringify(resultObj));
-
-        //resetForm();
-  }
