@@ -1,5 +1,5 @@
 // Token for API authentication, edit when using newly generated token.
-var token = "90931827|-31949307100192889|90960648";
+var token = "90931827|-31949306753306419|90960640";
 
 // Database name
 var dbName = "SCHOOL-DB";
@@ -82,7 +82,11 @@ function checkStudentID() {
 function checkStudentIdInDatabase(id) {
 
     var jsonRecord = loadDataFromDatabase(id);
-    if (jsonRecord !== null)
+    console.log(jsonRecord);
+    
+    if (jsonRecord === undefined)
+        return false;
+    else if (jsonRecord !== null)
         return true;
     else
         return false;
@@ -144,7 +148,7 @@ function saveData() {
     jQuery.ajaxSetup({ async: false });
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
     jQuery.ajaxSetup({ async: true });
-
+    alert("Record saved successfully!");
     resetForm();
 }
 
@@ -218,5 +222,6 @@ function updateData() {
     jQuery.ajaxSetup({ async: false });
     var jsonResponseObject = executeCommandAtGivenBaseUrl(reqString, dbBaseUrl, imlEndpoint);
     jQuery.ajaxSetup({ async: true });
+    alert("Record updated successfully.");
     resetForm();
 }
