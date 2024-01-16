@@ -32,7 +32,6 @@ JsonPowerDB is a NoSQL database that provides several advantages for this projec
 - [Scope of Functionalities](#scope-of-functionalities)
 - [Examples of Use](#examples-of-use)
 - [Project Status](project-status)
-- [Sources](sources)
 
 
 
@@ -89,6 +88,3 @@ The Student Enrollment Form provides the following functionalities:
 ## Project Status
 
 This project is currently in its initial release stage (v1.0.0). Future updates may include additional features, improvements, and bug fixes.
-
-
-## Sources
